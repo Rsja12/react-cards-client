@@ -23,7 +23,14 @@ export class Registration extends Component {
             }
         }, 
         { withCredentials: true })
-        .then(res => console.log('registration res', res))
+        .then(res => {
+            // Check what to do with response 
+            if ( res.data.status === 'created' ) {
+                this.props.handleSuccessfulAuth(res.data)
+            } else {
+                // display registration_errors from state
+            }
+        })
         .catch(error => console.log('registration error', error))
         e.preventDefault()
     }
