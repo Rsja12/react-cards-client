@@ -9,10 +9,30 @@ export class Registration extends Component {
         registration_errors: ''
     }
 
+    handleSubmit = (e) => {
+        console.log('submitted')
+        e.preventDefault()
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            email: e.target.value 
+        })
+    }
+
     render() {
         return (
             <div>
-                Registration goes here
+                <form onSubmit={this.handleSubmit} >
+                    <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Email" 
+                    value={this.state.email} 
+                    onChange={this.handleChange} 
+                    require 
+                    />
+                </form>
             </div>
         )
     }
