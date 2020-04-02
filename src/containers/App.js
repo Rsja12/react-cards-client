@@ -7,8 +7,16 @@ import Dashboard from '../components/Dashboard'
 export class App extends Component {
 
     state = {
-        loggedInStatus: 'NOT_LOGGED_IN',
+        loggedInStatus: 'NOT LOGGED IN',
         user: {}
+    }
+
+    // takes in data from handleSubmit in Registration component
+    handleLogin = (data) => {
+        this.setState({
+            loggedInStatus: 'LOGGED IN',
+            user: data 
+        })
     }
 
     render() {
@@ -18,8 +26,13 @@ export class App extends Component {
                     <Switch>
                         <Route 
                         exact path={'/'} 
+                        // render allows us to pass in Router props to component along with other custom props 
                         render={ props => (
-                            <Home {...props} loggedInStatus={this.state.loggedInStatus} />
+                            // Home has Router props plus new ones.
+                            <Home {...props} 
+                            loggedInStatus={this.state.loggedInStatus}
+                            handleLogin={this.handleLogin} 
+                            />
                         )} 
                         />
                         <Route 
