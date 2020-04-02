@@ -15,7 +15,7 @@ export class Registration extends Component {
     // pass in withCredentials: true so that we can create our cookie
     handleSubmit = (e) => {
         const { email, password, password_confirmation } = this.state 
-        axios.post("https://localhost:3001/registrations", {
+        axios.post("http://localhost:3001/registrations", {
             user: {
                 email: email,
                 password: password,
