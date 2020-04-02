@@ -10,9 +10,21 @@ export class Registration extends Component {
         registration_errors: ''
     }
 
+    // use axios to post create request to our api endpoint,
+    // pass in user object that points to obj with specific keys because of the way the action in the controller is set up,
+    // pass in withCredentials: true so that we can create our cookie
     handleSubmit = (e) => {
-        console.log('submitted')
-        axios.post("https://localhost:3001/registrations")
+        const { email, password, password_confirmation } = this.state 
+        axios.post("https://localhost:3001/registrations", {
+            user: {
+                email: email,
+                password: password,
+                password_confirmation: password_confirmation
+            }
+        }, 
+        { withCredentials: true })
+        .then(res => console.log('registration res', res))
+        .catch(error => console.log('registration error', error))
         e.preventDefault()
     }
 
