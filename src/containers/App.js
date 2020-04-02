@@ -5,13 +5,29 @@ import Home from '../components/Home'
 import Dashboard from '../components/Dashboard'
 
 export class App extends Component {
+
+    state = {
+        loggedInStatus: 'NOT_LOGGED_IN',
+        user: {}
+    }
+
     render() {
         return (
             <div>
                 <Router>
                     <Switch>
-                        <Route exact path={'/'} component={Home} />
-                        <Route exact path={'/dashboard'} component={Dashboard} />
+                        <Route 
+                        exact path={'/'} 
+                        render={ props => (
+                            <Home {...props} loggedInStatus={this.state.loggedInStatus} />
+                        )} 
+                        />
+                        <Route 
+                        exact path={'/dashboard'}
+                        render={ props => (
+                            <Dashboard {...props} loggedInStatus={this.state.loggedInStatus} />
+                        ) }
+                        />
                     </Switch>
                 </Router>
             </div>
