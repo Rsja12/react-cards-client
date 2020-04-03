@@ -40,6 +40,13 @@ export class App extends Component {
         })
     }
 
+    handleLogout = () => {
+        this.setState({
+            loggedInStatus: 'NOT LOGGED IN',
+            user: {}
+        })
+    }
+
     componentDidMount() {
        this.checkLoginStatus()
     }
@@ -57,6 +64,7 @@ export class App extends Component {
                             <Home {...props} 
                             loggedInStatus={this.state.loggedInStatus}
                             handleLogin={this.handleLogin} 
+                            handleLogout={this.handleLogout}
                             />
                         )} 
                         />
