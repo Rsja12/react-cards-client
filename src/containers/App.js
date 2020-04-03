@@ -15,7 +15,20 @@ export class App extends Component {
     // check if the cookie is installed in browser by sending get request to logged_in endpoint
     checkLoginStatus = () => {
         axios.get("http://localhost:3000/logged_in", { withCredentials: true })
-        .then( res => console.log('logged in', res) )
+        .then( res => {
+            if ( res.data.logged_in && this.state.loggedInStatus === 'NOT LOGGED IN' ) {
+                this.setState({
+                    loggedInStatus: 'LOGGED IN',
+                    user: res.data.user 
+                })
+            } 
+            else if ( !res.data.logged_in && this.state.loggedInStatus === 'LOGGED IN' ) {
+                this.setState({
+                    loggedInStatus: 'NOT LOGGED IN',
+                    user: {}
+                })
+            }
+        })
         .catch( error => console.log(error) )
     }
 
