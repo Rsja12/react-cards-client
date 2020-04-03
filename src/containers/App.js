@@ -57,6 +57,7 @@ export class App extends Component {
                 <Router>
                     <Switch>
                         <Route 
+                        
                         exact path={'/'} 
                         // render allows us to pass in Router props to component along with other custom props 
                         render={ props => (
@@ -64,14 +65,24 @@ export class App extends Component {
                             <Home {...props} 
                             loggedInStatus={this.state.loggedInStatus}
                             handleLogin={this.handleLogin} 
-                            handleLogout={this.handleLogout}
                             />
-                        )} 
-                        />
+                            )} 
+                            />
                         <Route 
                         exact path={'/dashboard'}
                         render={ props => (
-                            <Dashboard {...props} loggedInStatus={this.state.loggedInStatus} />
+                            this.state.loggedInStatus === 'LOGGED IN' ? (
+                                <Dashboard {...props} 
+                                loggedInStatus={this.state.loggedInStatus}
+                                handleLogout={this.handleLogout}
+                                 />
+                            ) : (
+                                <Home {...props} 
+                                loggedInStatus={this.state.loggedInStatus}
+                                handleLogin={this.handleLogin} 
+                                handleLogout={this.handleLogout}
+                                />
+                            )
                         ) }
                         />
                     </Switch>
