@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import axios from 'axios'
 
 import Home from '../components/Home'
 import Dashboard from '../components/Dashboard'
@@ -11,12 +12,23 @@ export class App extends Component {
         user: {}
     }
 
+    // check if the cookie is installed in browser by sending get request to logged_in endpoint
+    checkLoginStatus = () => {
+        axios.get("http://localhost:3000/logged_in", { withCredentials: true })
+        .then( res => console.log('logged in', res) )
+        .catch( error => console.log(error) )
+    }
+
     // takes in data from handleSubmit in Registration component
     handleLogin = (data) => {
         this.setState({
             loggedInStatus: 'LOGGED IN',
             user: data.user  
         })
+    }
+
+    componentDidMount() {
+       this.checkLoginStatus()
     }
 
     render() {
