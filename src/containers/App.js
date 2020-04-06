@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import Home from '../components/Home'
@@ -57,7 +57,6 @@ export class App extends Component {
                 <Router>
                     <Switch>
                         <Route 
-                        
                         exact path={'/'} 
                         // render allows us to pass in Router props to component along with other custom props 
                         render={ props => (
