@@ -14,7 +14,6 @@ export class Dashboard extends Component {
         return (
             <div>
                 <h1>Dashboard</h1>
-                <h1>Status: {this.props.loggedInStatus} </h1>
                 <button onClick={this.handleLogoutClick}>Logout</button>
             </div>
         )

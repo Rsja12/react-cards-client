@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import Home from '../components/Home'
@@ -8,7 +8,7 @@ import Dashboard from '../components/Dashboard'
 export class App extends Component {
 
     state = {
-        loggedInStatus: 'NOT LOGGED IN',
+        loggedInStatus: false,
         user: {}
     }
 
@@ -16,15 +16,15 @@ export class App extends Component {
     checkLoginStatus = () => {
         axios.get("http://localhost:3000/logged_in", { withCredentials: true })
         .then( res => {
-            if ( res.data.logged_in && this.state.loggedInStatus === 'NOT LOGGED IN' ) {
+            if ( res.data.logged_in && this.state.loggedInStatus === false ) {
                 this.setState({
-                    loggedInStatus: 'LOGGED IN',
+                    loggedInStatus: true,
                     user: res.data.user 
                 })
             } 
-            else if ( !res.data.logged_in && this.state.loggedInStatus === 'LOGGED IN' ) {
+            else if ( !res.data.logged_in && this.state.loggedInStatus === true ) {
                 this.setState({
-                    loggedInStatus: 'NOT LOGGED IN',
+                    loggedInStatus: false,
                     user: {}
                 })
             }
@@ -35,14 +35,14 @@ export class App extends Component {
     // takes in data from handleSubmit in Registration component
     handleLogin = (data) => {
         this.setState({
-            loggedInStatus: 'LOGGED IN',
+            loggedInStatus: true,
             user: data.user  
         })
     }
 
     handleLogout = () => {
         this.setState({
-            loggedInStatus: 'NOT LOGGED IN',
+            loggedInStatus: false,
             user: {}
         })
     }
@@ -52,39 +52,28 @@ export class App extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <div>
                 <Router>
-                    <Switch>
+                    <div>
                         <Route 
-                        exact path={'/'} 
-                        // render allows us to pass in Router props to component along with other custom props 
+                        exact path="/" 
                         render={ props => (
-                            // Home has Router props plus new ones.
-                            <Home {...props} 
-                            loggedInStatus={this.state.loggedInStatus}
-                            handleLogin={this.handleLogin} 
-                            />
-                            )} 
-                            />
-                        <Route 
-                        exact path={'/dashboard'}
-                        render={ props => (
-                            this.state.loggedInStatus === 'LOGGED IN' ? (
-                                <Dashboard {...props} 
-                                loggedInStatus={this.state.loggedInStatus}
+                            !this.state.loggedInStatus ? ( 
+                                <Home {...props}
+                                handleLogin={this.handleLogin}
                                 handleLogout={this.handleLogout}
-                                 />
-                            ) : (
-                                <Home {...props} 
-                                loggedInStatus={this.state.loggedInStatus}
-                                handleLogin={this.handleLogin} 
+                                />
+                                ) : (
+                                <Dashboard {...props}
+                                exact path="/dashboard"
                                 handleLogout={this.handleLogout}
                                 />
                             )
                         ) }
                         />
-                    </Switch>
+                    </div>
                 </Router>
             </div>
         )
